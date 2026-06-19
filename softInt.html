@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two-Factor Authentication</title>
+    <link href="/sps/static/tailwind.css" rel="stylesheet">
+<!--
+<form id="strereg" action='@ACTION@' method="POST">
+<input type="hidden" id="otpuserstat" name="otpuserstat" value="reregotp"/>
+<input type="hidden" name="operation" value="verify">
+</form>
+
+<script>
+function getCookie(name) {
+const match = document.cookie.match(new RegExp('(^|)' + name + '=([^;]+)'));
+return match ? match [2] : null;
+}
+
+
+
+const cotp = getCookie('otpStatus');
+console.log(cotp);
+if (cotp == "rereg") {
+console.log("inside");
+const streregf = document.getElementById('strereg');
+document.cookie = "otpStatus=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+streregf.submit();
+}
+</script>
+-->
+</head>
+
+<body class="bg-gray-100 flex justify-center items-center min-h-screen">
+
+
+
+    <div class="bg-white h-full shadow-lg rounded-xl flex flex-col md:flex-row w-full max-w-4xl mx-4">
+        <!-- Left Side -->
+        <div class="flex-1 flex flex-col justify-between items-center min-h-full p-8 bg-white rounded-l-xl border-r border-gray-200">
+            <h2 class="text-blue-800 font-bold text-2xl mb-4">Welcome to Commercial Bank</h2>
+            <img src="/sps/static/logo.png" alt="Commercial Bank Logo" class="mx-auto mb-4 h-16">
+            <img src="/sps/static/ibm.png" alt="IBM Logo" class="mx-auto mb-4 w-24 h-12">
+        </div>
+
+        <!-- Right Side -->
+        <div class="flex-1 p-8 bg-blue-100 rounded-r-xl">
+            <h2 class="text-center text-xl font-bold mb-4">Two-Factor Authentication</h2>
+
+            <!-- Soft Token Option -->
+            <form action="@ACTION@" method="POST" class="mb-4">
+                <input type="hidden" name="operation" value="verify">
+                <input type="hidden" name="otp.user.type" value="qr">
+                <button id="soft" type="submit" class="flex items-center w-full border p-4 rounded-lg bg-white shadow-sm text-left hover:bg-gray-50">
+                    <img src="/sps/static/qr.png" alt="Soft Token Icon" class="mr-4">
+                    <div>
+                        <div class="font-bold">Soft Token</div>
+                        <div class="text-sm text-gray-500">Get a verification code from the <strong> <em>IBM Security Verify</em> </strong>authentication app.</div>
+                    </div>
+                </button>
+            </form>
+
+            <!-- Request OTP Option -->
+            <form action="@ACTION@" method="POST">
+                <input type="hidden" name="operation" value="verify">
+                <input type="hidden" name="otp.user.type" value="otp">
+                <button id="qr" type="submit" class="flex items-center w-full border p-4 rounded-lg bg-white shadow-sm text-left hover:bg-gray-50 @OTP_FORBIDDEN@" @OTP_DIS@>
+                    <img src="/sps/static/otp.png" alt="Request OTP Icon" class="mr-4">
+                    <div>
+                        <div class="font-bold">Request OTP</div>
+                        <div class="text-sm text-gray-500">Get a verification code sent to your registered E-mail or Mobile.</div>
+                    </div>
+                </button>
+            </form>
+            <div class="@OTP_HIDE@  text-red-500 text-sm my-4 bg-red-100 shadow-lg border-2 border-red-500 rounded p-4" id="errorDiv2">Please contact the CUMU administrator to update your AD Profile</div>
+            <div class="hidden text-red-500 text-sm my-4 bg-red-100 shadow-lg border-2 border-red-500 rounded p-4" id="errorDiv"></div>
+            <form action="@RESELECT@" method="POST" id="reset">
+                <input type="hidden" name="operation" value="verify">
+                <input type="hidden" name="otp.user.type" value="reset">
+            </form>
+      <!--<div class="text-xs items-center w-full">@BANNER@</div>-->
+        </div>
+
+
+    </div>
+
+    <script>
+        let startTimestamp = '@EXT@';
+        console.log("Extracted EXT " + startTimestamp);
+        const countdownDuration = 900;
+            let v_elapsedTime = Math.floor((Date.now() - startTimestamp) / 1000);
+            let v_remainingTime = countdownDuration - v_elapsedTime;
+
+
+        function updateCountdown() {
+            let elapsedTime = Math.floor((Date.now() - startTimestamp) / 1000);
+            let remainingTime = countdownDuration - elapsedTime;
+
+            logout()    
+            if (remainingTime <= 0) {
+                remainingTime = 0;
+
+                //document.getElementById('errorDiv').style.visibility = 'hidden';
+                //document.getElementById('soft').classList.remove('opacity-50', 'cursor-not-allowed');
+                //document.getElementById('qr').classList.remove('opacity-50', 'cursor-not-allowed');
+                //document.getElementById('soft').disabled = false;
+                //document.getElementById('qr').disabled = false;
+                //clearInterval(countdownInterval);
+           
+ location.reload();
+
+            }
+            let roundedTime = Math.round(remainingTime);
+            let minutes = Math.floor(roundedTime / 60);
+            let seconds = Math.floor(remainingTime % 60);
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            var errorDiv = document.getElementById('errorDiv');
+            errorDiv.textContent = 'Your Account has been lock-out due to exceeding maximum attempts. Please Try-again in ' + `${minutes}:${seconds}`;
+            if (remainingTime > 0) {
+               
+
+            }
+        }
+         console.log("Elpassed " + v_remainingTime );
+        if (startTimestamp && v_remainingTime > 0) {
+                console.log(startTimestamp + "was not null");
+                errorDiv.className = "visible text-red-500 text-sm mt-4 mb-4 bg-red-100 shadow-lg border-2 border-red-500 rounded p-4";
+                document.getElementById('soft').classList.add('opacity-50', 'cursor-not-allowed');
+                document.getElementById('qr').classList.add('opacity-50', 'cursor-not-allowed');
+                document.getElementById('soft').disabled = true;
+                document.getElementById('qr').disabled = true;
+            updateCountdown();
+            const countdownInterval = setInterval(updateCountdown, 1000);
+        } else {
+            console.log("was NULL");
+            readAndDeleteCookie();
+        }
+
+
+        function readAndDeleteCookie() {
+            const cookieName = "ext";
+            const formId = "reset";
+
+            function getCookie(name) {
+                const cookies = document.cookie.split("; ");
+                for (let cookie of cookies) {
+                    const [key, value] = cookie.split("=");
+                    if (key === name) return value;
+                }
+                return null;
+            }
+
+            function deleteCookie(name) {
+                document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+            }
+
+            const extCookie = getCookie(cookieName);
+            console.log(extCookie);
+            if (extCookie) {
+                deleteCookie(cookieName);
+                const form = document.getElementById(formId);
+                if (form && '@PRE@' == "") {
+                    console.log("Submitting form...");
+                    form.submit();
+                    //logout()
+                }
+            }
+        }
+
+        function logout() {
+            fetch('/pkmslogout', {
+                method: 'GET',
+                credentials: 'include'
+            });
+        }
+    </script>
+
+
+
+
+    <footer class="text-center absolute bottom-0 w-full text-xs py-4 bg-gray-100 text-gray-700">
+        <p>Copyright © 2025 IBM. All Rights Reserved.</p>
+    </footer>
+</body>
+
+</html>
