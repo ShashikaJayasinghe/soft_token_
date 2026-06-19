@@ -1,0 +1,1199 @@
+/* styles.css */
+
+/* 1. FONT IMPORTS */
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;600;700&display=swap');
+
+@font-face {
+    font-family: 'Red Hat Display';
+    src: url('/mga/sps/static/Fonts/RedHatDisplay-Regular.woff2') format('woff2'),
+         url('/mga/sps/static/Fonts/RedHatDisplay-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Red Hat Display';
+    src: url('/mga/sps/static/Fonts/RedHatDisplay-Bold.woff2') format('woff2'),
+         url('/mga/sps/static/Fonts/RedHatDisplay-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* 2. RESET & BASE */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Red Hat Display", "Segoe UI", sans-serif;
+}
+
+/* Override Tailwind container max-width at all breakpoints */
+.container { max-width: 100% !important; }
+@media (min-width: 640px)  { .container { max-width: 100% !important; } }
+@media (min-width: 768px)  { .container { max-width: 100% !important; } }
+@media (min-width: 1023px) { .container { max-width: 100% !important; } }
+@media (min-width: 1280px) { .container { max-width: 100% !important; } }
+@media (min-width: 1536px) { .container { max-width: 100% !important; } }
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    background: #ffffff;
+    transition: 0.3s;
+    overflow: hidden;
+}
+
+body.dark {
+    background: #0f172a;
+    color: #fff;
+}
+
+.container {
+    width: 100%;
+background-color: #F7F7F7;
+    height: 100vh;
+    display: flex;
+    justify-content: flex-start;
+    gap: 28px;
+    padding: 20px 18px;
+    overflow: visible;
+    align-items: stretch;
+    position: relative;
+}
+
+/* 3. LEFT PANEL (Image & Text) */
+/* Add this if all went well  */
+
+.left {
+    flex: 0 0 calc(70% - 14px);
+    min-width: 0;
+    background: url('https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/Image2.png') no-repeat center top / cover;
+    background-repeat: no-repeat;
+    background-position: left top;
+    background-size: 100% 100%;
+    position: relative;
+    border-radius: 32px;
+    overflow: hidden;
+}
+
+
+.left::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.03) 0%,
+        rgba(0, 0, 0, 0.02) 35%,
+        rgba(0, 0, 0, 0.18) 70%,
+        rgba(0, 0, 0, 0.38) 100%
+    );
+    pointer-events: none;
+}
+
+.overlay {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(82%, 700px);
+    display: flex;
+    justify-content: center;
+    z-index: 2;
+}
+
+.overlay-content {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.80);
+    letter-spacing: 0px;
+}
+
+.wordZero {
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 100%;
+    margin-bottom: 12px;
+}
+
+.wordingOne {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.45;
+    margin-bottom: 42px;
+    color: rgba(255, 255, 255, 0.88);
+}
+
+.wordingtwo {
+    font-weight: 400;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.68);
+}
+
+/* 4. LANGUAGE SELECTOR */
+.lang-wrapper {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    width: 122px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    z-index: 20;
+}
+
+.lang-icon {
+    position: absolute;
+    left: 12px;
+    width: 16px;
+    height: 16px;
+    z-index: 3;
+    pointer-events: none;
+    filter: brightness(0) invert(1);
+}
+
+.lang-select {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 86%;
+    height: 100%;
+    background: #43c74f;
+    color: #ffffff;
+    border: none;
+    border-radius: 999px;
+    padding: 0 28px 0 36px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    outline: none;
+}
+
+/* TODO Remove this later for trilingual values*/
+.lang-select option:not([value="en"]) {
+    display: none;
+}
+
+/* .lang-wrapper::after {
+    content: "\f078";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    right: 13px;
+    color: #ffffff;
+    font-size: 10px;
+    pointer-events: none;
+} */
+
+/* 4B. MOBILE LANGUAGE SELECTOR - Hidden by default */
+.lang-wrapper-mobile {
+    display: none;
+}
+
+/* 5. RIGHT PANEL (Login Form) */
+.right {
+    flex: 1;
+    min-width: 0;
+    max-width: 100%;
+    background: #F7F7F7;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 26px 26px 0 26px;
+    overflow: visible;
+}
+
+body.dark .right {
+    background: #1e293b;
+}
+
+.top-bar {
+    position: absolute;
+    top: -10px;
+    right: 8px;
+    z-index: 10;
+}
+
+.top-rectangle{
+    position: absolute;
+    top: -5px;
+    left: 20px;
+    z-index: 10;
+    display: flex;
+    gap: 5px;
+}
+
+.top-rectangle-2{
+    display: none;
+}
+
+.BankLogo img {
+    width: 160px;
+    height: auto;
+    display: block;
+    margin-top: 9px;
+    margin-right: -10px;
+}
+
+/* Form Layout */
+.form-container {
+    width: 100%;
+    max-width: 390px;
+    text-align: left;
+    z-index: 5;
+    margin: 0 auto;
+    transform: translate(0, -38px);
+}
+
+#title {
+    font-size: 28px;
+    font-weight: 300;
+    color: #5f6368;
+    margin-bottom: 2px;
+    text-align: center;
+    line-height: 1.15;
+}
+
+#title-bold {
+    font-size: 29px;
+    font-weight: 600;
+    color: #2f343b;
+    margin-bottom: 16px;
+    text-align: center;
+    line-height: 1.15;
+   
+}
+
+#subtitle {
+    max-width: 355px;
+    margin: 0 auto 34px;
+    font-size: 14px;
+    color: #5f6368;
+    text-align: center;
+    line-height: 1.45;
+}
+
+#title-DetailsNotFound {
+    width: 100%;
+    font-size: Typeface/xxl;
+    font-weight: 600;
+    color: #2f343b;
+    margin: 0 auto 16px;
+    text-align: center;
+    line-height: 1.15;
+}
+
+#subtitle-DetailsNotFound {
+    width: 100%;
+    max-width: 455px;
+    margin: 0 auto 90px;
+    font-size: 13px;
+    font-weight: 400;
+    color: #2D3337;
+    text-align: center;
+    line-height: 1.45;
+}
+
+#title-PwdReqSub {
+    width: 100%;
+    font-size: Typeface/xxl;
+    font-weight: 600;
+    color: #2f343b;
+    margin: 0 auto 16px;
+    text-align: center;
+    line-height: 1.15;
+    max-width: 350px;
+}
+
+#subtitle-PwdReqSub {
+    width: 100%;
+    max-width: 455px;
+    margin: 0 auto 90px;
+    font-size: 13px;
+    font-weight: 400;
+    color: #2D3337;
+    text-align: center;
+    line-height: 1.45;
+}
+
+.required-star {
+    color: #1e88c8;
+}
+
+/* Input Fields */
+.input-group {
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+.input-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: #000000;
+    margin-bottom: 8px;
+}
+
+.input {
+    position: relative;
+}
+
+.input input {
+    width: 100%;
+    height: 40px;
+    padding: 0 14px;
+    border-radius: 13px;
+    border: 1px solid #cfd6de;
+    background: #ffffff;
+    outline: none;
+    font-size: 13px;
+    color: #2f343b;
+    transition: 0.2s;
+}
+
+.input input::placeholder {
+    color: #9aa3ad;
+    font-weight: 400;
+}
+
+.input input:focus {
+    border-color: #43c74f;
+    background: #ffffff;
+    border: 2px solid var(--Boarder-Secondary-Ocean-Blue-400, rgba(0, 112, 186, 0.4)) !important;
+}
+
+/* Forgot Password & Button */
+.forgot-password {
+    width: 100%;
+    text-align: right;
+    margin: 1px 0 20px;
+}
+
+.forgot-password a {
+    color: #008a8a;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.Loginb-btn {
+    width: 100%;
+}
+
+button.login {
+    width: 100%;
+    height: 39px;
+    border-radius: 13px;
+    border: none;
+    background: #d3d3d6;
+    color: #7c7c80;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button.login:hover {
+    background: #c9ccd2;
+}
+
+.details-not-found-container {
+    width: 100%;
+    max-width: 390px;
+    text-align: center;
+    z-index: 5;
+    margin: 0 auto;
+    transform: translate(0, -38px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.PwdReqSub-container {
+    width: 100%;
+    max-width: 390px;
+    text-align: center;
+    z-index: 5;
+    margin: 0 auto;
+    transform: translate(0, -38px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.Gotit-btn {
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+button.GotIt {
+    width: 100%;
+    height: 45px;
+    border-radius: 13px;
+    border: none;
+    background: #0070BA;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s;
+    display: block;
+    margin: 0 auto;
+}
+
+.DetailsNotFoundLogo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 14px;
+}
+
+.DetailsNotFoundLogo img {
+    width: 170px;
+    height: 170px;
+    border-radius: 100000;
+    display: block;
+    margin: 0 auto;
+}
+
+.PwdReqSubLogo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 14px;
+}
+
+.PwdReqSubLogo img {
+    width: 170px;
+    height: 170px;
+    border-radius: 100000;
+    display: block;
+    margin: 0 auto;
+}
+
+/* 6. BOTTOM ILLUSTRATION */
+.BuildingSet {
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    width: 100%;
+    line-height: 0;
+    pointer-events: none;
+}
+
+.BuildingSet img {
+    width: 100%;
+    height: auto;
+    display: block;
+    opacity: 1;
+}
+
+.mobile-copyright {
+    display: none;
+}
+
+/* 7. DARK MODE OVERRIDES */
+body.dark #title-bold {
+    color: #ffffff;
+}
+
+body.dark #title,
+body.dark #subtitle {
+    color: #cbd5e1;
+}
+
+body.dark .input input {
+    background: #334155;
+    border: none;
+    color: #ffffff;
+}
+
+input[type="text"],
+        input[type="password"],
+        .input input {
+            font-weight: 700 !important;
+            border-radius: 16px;
+            height: 48px;
+        }
+
+#errorB .w-full {
+    background-color: #f9d3d3 !important;
+    color: #000000 !important;
+    border-color: #f9d3d3 !important;
+}
+
+#errorText {
+    color: #000000 !important;
+}
+
+.error-box {
+    background-color: #f9d3d3 !important;
+    border-color: #f9d3d3 !important;
+}
+
+#errorText {
+    color: #000000 !important;
+}
+
+.error-box,
+#errorDiv > div,
+#backendErrors,
+#backendError,
+#errorMessageText {
+    background-color: #f9d3d3 !important;
+    color: #000000 !important;
+    border-color: #f9d3d3 !important;
+}
+
+/* ensure inner text stays readable */
+.error-box *,
+#errorDiv *,
+#backendErrors *,
+#backendError * {
+    color: #000000 !important;
+}
+
+/* optional: icon cleanup */
+.error-box img,
+#errorDiv img {
+    background: transparent !important;
+}
+
+#serverErrorBox,
+#clientErrorBox,
+.error-box,
+#errorDiv > div,
+#backendErrors,
+#backendError,
+#errorMessageBox {
+    background-color: #f9d3d3 !important;
+    border-color: #f9d3d3 !important;
+    color: #000000 !important;
+}
+
+/* Error text */
+#serverErrorText,
+#errorMessage,
+#errorText,
+#errorMessageText {
+    color: #000000 !important;
+}
+
+/* Ensure inner elements stay readable */
+#serverErrorBox *,
+#clientErrorBox *,
+.error-box *,
+#errorDiv *,
+#backendErrors *,
+#backendError * {
+    color: #000000 !important;
+}
+
+/* Error icon handling */
+#serverErrorBox img,
+#clientErrorBox img,
+.error-box img,
+#errorDiv img {
+    background: transparent !important;
+}
+
+
+.otp-error-box {
+    background-color: #f9d3d3 !important;
+    color: #000000 !important;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.input input:focus {
+    border-color: #0891b2 !important;
+    box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.12) !important;
+    outline: none !important;
+}
+
+/* 8. RESPONSIVE */
+@media (max-width: 1200px) {
+    .container {
+        gap: 20px;
+        padding: 16px;
+    }
+
+    .left {
+        flex: 0 0 60%;
+    }
+
+    .right {
+        padding: 24px 24px 0 18px;
+    }
+
+    .form-container {
+        max-width: 380px;
+        transform: translate(0, -38px);
+    }
+
+    .BuildingSet {
+        bottom: -16px;
+    }
+}
+
+@media (max-width: 1023px) {
+    .container {
+        gap: 16px;
+    }
+
+    .left,
+    .right {
+        flex: 1 1 50%;
+    }
+
+    .top-bar {
+        right: 0;
+    }
+
+    .BankLogo img {
+        width: 145px;
+    }
+
+    .form-container {
+        max-width: 360px;
+        transform: translate(0, -38px);
+    }
+}
+
+@media (max-width: 707px) {
+    html,
+    body {
+        height: auto;
+        min-height: 100%;
+    }
+
+    body {
+        overflow-x: hidden;
+        overflow-y: auto;
+        background: #000000;
+    }
+
+    .container {
+        min-height: 100vh;
+        height: auto;
+        display: block;
+        padding: 0;
+        gap: 0;
+        position: relative;
+        overflow: hidden;
+        background: url('https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/Image2.png') no-repeat center top / cover;
+    }
+
+    .left {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100vh;
+        min-height: 100vh;
+        flex: none;
+        border-radius: 0;
+        background: transparent;
+        z-index: 1;
+    }
+
+    .left::after {
+        background: linear-gradient(
+            180deg,
+            rgba(0, 0, 0, 0.06) 0%,
+            rgba(0, 0, 0, 0.08) 45%,
+            rgba(0, 0, 0, 0.22) 100%
+        );
+    }
+
+    .overlay {
+        display: none;
+    }
+
+    .right {
+        position: relative;
+        z-index: 5;
+        width: calc(100% - 20px);
+        max-width: 355px;
+        min-height: calc(100vh - 110px);
+        margin: 54px auto 22px;
+        background: #F7F7F7;
+        border-radius: 30px;
+        padding: 94px 20px 118px;
+        display: block;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    }
+
+
+
+    .top-bar {
+        position: absolute;
+        top: 32px;
+        right: 18px;
+        z-index: 12;
+    }
+
+    .BankLogo img {
+        width: 127px;
+        margin-top: 0;
+    }
+
+    .lang-wrapper {
+        position: fixed;
+        top: 86px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: calc(100% - 68px);
+        max-width: 290px;
+        height: 38px;
+        justify-content: flex-start;
+        z-index: 3;
+        pointer-events: none;
+    }
+
+    .lang-wrapper::after {
+        right: auto;
+        left: 95px;
+        color: #6c727a;
+        font-size: 10px;
+    }
+
+    .lang-icon {
+        left: 14px;
+        width: 15px;
+        height: 15px;
+        filter: none;
+    }
+
+    .lang-select {
+        width: 124px;
+        height: 38px;
+        background: #f7f7f7;
+        color: #5f6368;
+        border: 1px solid #8e8e8e;
+        padding: 0 28px 0 36px;
+        font-size: 13px;
+        font-weight: 500;
+        pointer-events: auto;
+    }
+
+    .form-container {
+        max-width: 100%;
+        transform: none;
+        margin: 0;
+        padding-top: 0;
+    }
+
+    #title {
+        font-size: 24px;
+        margin-bottom: 3px;
+        line-height: 1.2;
+    }
+
+    #title-bold {
+        font-size: 24px;
+        margin-bottom: 16px;
+        line-height: 1.2;
+    }
+
+    .lang-wrapper-mobile {
+        display: flex;
+        align-items: center;
+        position: absolute;
+        top: 30px;
+        left: 15%;
+        width: 122px;
+        height: 38px;
+    }
+
+    .lang-wrapper-mobile::after {
+        content: "\f078";
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        position: absolute;
+        right: 13px;
+        color: #f7f7f7;
+        font-size: 10px;
+        pointer-events: none;
+    }
+
+    #subtitle {
+        max-width: 290px;
+        margin: 0 auto 38px;
+        font-size: 14px;
+        line-height: 1.4;
+    }
+
+    .input-group {
+        margin-bottom: 18px;
+    }
+
+    .input-group label {
+        font-size: 13px;
+        margin-bottom: 9px;
+    }
+
+    .input input {
+        height: 48px;
+        border-radius: 15px;
+        font-size: 13px;
+        padding: 0 16px;
+    }
+
+    .forgot-password {
+        margin: 10px 0 24px;
+        text-align: right;
+    }
+
+    .forgot-password a {
+        font-size: 14px;
+    }
+
+    .Loginb-btn {
+        position: relative;
+        z-index: 5;
+    }
+
+    button.login {
+        height: 48px;
+        border-radius: 15px;
+        font-size: 15px;
+    }
+
+    .BuildingSet {
+        bottom: -4px;
+        left: 0;
+        width: 100%;
+        z-index: 1;
+    }
+
+    .BuildingSet img {
+        width: 100%;
+        opacity: 1;
+    }
+
+   
+
+    .mobile-copyright {
+        display: block;
+        position: absolute;
+        bottom: 8px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        font-size: 10px;
+        font-weight: 400;
+        color: #9fa5aa;
+        z-index: 3;
+    }
+}
+
+/* Tablet Media Query (708px - 1024px) */
+@media (min-width: 708px) and (max-width: 1023px) {
+    html,
+    body {
+        height: auto;
+        min-height: 100%;
+    }
+
+    body {
+        overflow-x: hidden;
+        overflow-y: auto;
+        background: #000000;
+    }
+
+    .container {
+        min-height: 100vh;
+        height: auto;
+        display: block;
+        padding: 0;
+        gap: 0;
+        position: relative;
+        overflow: hidden;
+        background: url('https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/Image2.png') no-repeat center top / cover;
+    }
+
+    .left {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100vh;
+        min-height: 100vh;
+        flex: none;
+        border-radius: 0;
+        background: transparent;
+        z-index: 1;
+    }
+
+    .left::after {
+        background: linear-gradient(
+            180deg,
+            rgba(0, 0, 0, 0.06) 0%,
+            rgba(0, 0, 0, 0.08) 45%,
+            rgba(0, 0, 0, 0.22) 100%
+        );
+    }
+
+    .overlay {
+        display: none;
+    }
+
+    .form-group-div{
+        max-width: 62% !important;
+    }
+
+    .right {
+        position: relative;
+        z-index: 5;
+        width: calc(100% - 20px);
+        max-width: 90%;
+        min-height: calc(100vh - 110px);
+        margin: 54px auto 22px;
+        background: #F7F7F7;
+        border-radius: 30px;
+        padding: 94px 20px 118px;
+        display: block;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    }
+
+
+
+    .lang-wrapper{
+        display: none;
+    }
+   
+    .top-bar {
+        position: absolute;
+        top: 32px;
+        right: 18px;
+        z-index: 12;
+    }
+
+    .BankLogo img {
+        width: 196px;
+        margin: auto;
+    }
+
+    .lang-wrapper-mobile {
+        position: fixed;
+        top: 86px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: calc(100% - 68px);
+        max-width: 290px;
+        height: 38px;
+        justify-content: flex-start;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .lang-wrapper-mobile::after {
+        right: auto;
+        left: 95px;
+        color: #6c727a;
+        font-size: 10px;
+    }
+
+    .lang-icon {
+        left: 14px;
+        width: 15px;
+        height: 15px;
+        filter: none;
+    }
+
+    .lang-select {
+        width: 124px;
+        height: 38px;
+        background: #f7f7f7;
+        color: #5f6368;
+        border: 1px solid #8e8e8e;
+        padding: 0 28px 0 36px;
+        font-size: 13px;
+        font-weight: 500;
+        pointer-events: auto;
+    }
+
+    .form-container {
+        max-width: 100% !important;
+        transform: translateY(50%) !important;
+        margin: 0;
+        padding-top: 0;
+        overflow: none !important;
+        max-height: 100vh !important;
+    }
+
+    #title {
+        font-size: 32px;
+        margin-bottom: 3px;
+        line-height: 1.2;
+    }
+
+    #title-bold {
+        font-size: 32px;
+        margin-bottom: 16px;
+        line-height: 1.2;
+    }
+
+    .lang-wrapper-mobile {
+        display: flex;
+        align-items: center;
+        position: absolute;
+        top: 30px;
+        left: 15%;
+        width: 122px;
+        height: 38px;
+    }
+
+    .lang-wrapper-mobile::after {
+        content: "\f078";
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        position: absolute;
+        right: 13px;
+        color: #f7f7f7;
+        font-size: 10px;
+        pointer-events: none;
+    }
+
+    #subtitle {
+        max-width: 100%;
+        margin: 0 auto 38px;
+        font-size: 18px !important;
+        line-height: 1.4;
+    }
+
+   
+    .input-group {
+        margin-bottom: 18px;
+    }
+
+    .input-group label {
+        font-size: 13px;
+        margin-bottom: 9px;
+    }
+
+    .input input {
+        height: 48px;
+        border-radius: 15px;
+        font-size: 13px;
+        padding: 0 16px;
+    }
+
+    .forgot-password {
+        margin: 10px 0 24px;
+        text-align: right;
+    }
+
+    .forgot-password a {
+        font-size: 14px;
+    }
+
+    .Loginb-btn {
+        position: relative;
+        z-index: 5;
+    }
+
+    button.login {
+        height: 48px;
+        border-radius: 15px;
+        font-size: 15px;
+        margin-top: 35px;
+    }
+
+    .BuildingSet {
+        bottom: -4px;
+        left: 0;
+        width: 100%;
+        z-index: 1;
+    }
+
+    .BuildingSet img {
+        width: 100%;
+        opacity: 1;
+    }
+
+    .mobile-copyright {
+        display: block;
+        position: absolute;
+        bottom: 8px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        font-size: 13px;
+        font-weight: 400;
+        color: #9fa5aa;
+        z-index: 3;
+    }
+}
+@media (max-width: 420px) {
+    .right {
+        width: calc(100% - 18px);
+        margin: 54px auto 18px;
+        padding: 92px 18px 112px;
+        border-radius: 28px;
+    }
+
+    .lang-wrapper {
+        width: calc(100% - 62px);
+    }
+
+    .top-bar {
+        right: 16px;
+    }
+
+    .BankLogo img {
+        width: 126px;
+    }
+
+    #title {
+        font-size: 23px;
+    }
+
+    #title-bold {
+        font-size: 24px;
+    }
+
+    #subtitle {
+        font-size: 13px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .top-rectangle {
+        display: none;
+    }
+
+    .top-rectangle-2{
+        display: flex;
+        position: relative;
+        top: 0;
+        left: 4%;
+        gap: 5px;
+    }
+
+    .green-short-rectangle{
+        width: 20px;
+        height: 39px;
+        background-color: #4DB848;
+    }
+
+    .blue-long-rectangle{
+        width: 20px;
+        height: 54px;
+        background-color: #0070BA;
+    }
+}

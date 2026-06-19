@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title id="mfa_title">ComBank Digital Access</title>
+
+    <link rel="stylesheet" href="/sps/static/tailwind.css" />
+    <link rel="stylesheet" href="stylesv3.css" />
+    <link href="sps/static/tailwind.css" rel="stylesheet" />
+
+    <style>
+      @media (min-width: 708px) and (max-width: 1024px) {
+        .form-container {
+          transform: none !important;
+          margin: 0 auto !important;
+        }
+        .right {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    </style>
+
+    <script>
+      history.pushState(null, null, location.href);
+      window.onpopstate = function () {
+        history.go(1);
+      };
+
+      if (
+        performance.navigation.type === 1 ||
+        performance.getEntriesByType("navigation")[0]?.type === "reload"
+      ) {
+        window.location.href = "@REFRESH@";
+      } else {
+        sessionStorage.setItem("visitedFrom", "softtokenScanQR.html");
+      }
+    </script>
+
+    <style>
+      /* --- UNIVERSAL RESPONSIVE SCREEN FIX --- */
+      @media (min-width: 1025px) {
+        html,
+        body {
+          height: 100%;
+          margin: 0;
+          overflow: hidden;
+        }
+        .container {
+          height: 100vh;
+          box-sizing: border-box;
+        }
+        .left,
+        .right {
+          height: 100%;
+        }
+        .right {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          padding: 0 36px !important;
+        }
+        .form-container {
+          transform: none !important;
+          margin: 0 auto;
+        }
+      }
+
+      .right {
+        position: relative;
+        overflow: visible;
+      }
+      .form-container {
+        position: relative;
+        z-index: 10;
+      }
+
+      /* --- TOP RECTANGLES (mobile only) --- */
+      .top-rectangle {
+        position: absolute;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 6px;
+        top: 0;
+        left: 32px;
+        z-index: 10;
+      }
+      @media (min-width: 769px) {
+        .top-rectangle {
+          display: none !important;
+        }
+      }
+
+      /* --- QR CODE BOX --- */
+      .qr-wrapper {
+        display: flex;
+        justify-content: center;
+        margin: 0 auto 20px auto;
+      }
+      .qr-wrapper img {
+        width: 160px;
+        height: 160px;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        background: #f8fafc;
+        object-fit: contain;
+        display: block;
+      }
+
+      /* --- GREETING TEXT --- */
+      .greeting-text {
+        font-size: 13px;
+        color: #5f6368;
+        line-height: 1.7;
+        margin-bottom: 18px;
+        text-align: left;
+      }
+      .greeting-text strong {
+        color: #2f343b;
+        font-weight: 600;
+      }
+
+      /* --- STEPS LIST --- */
+      .steps-list {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 24px 0;
+      }
+      .steps-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 13px;
+        color: #374151;
+        line-height: 1.6;
+        margin-bottom: 10px;
+      }
+      .step-num {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #0070ba;
+        color: #fff;
+        font-size: 11px;
+        font-weight: 700;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+
+      /* --- NEXT BUTTON --- */
+      .next-btn {
+        display: block;
+        width: 100%;
+        padding: 14px;
+        background: #0070ba;
+        color: #fff;
+        font-size: 15px;
+        font-weight: 600;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        text-align: center;
+        transition: background 0.2s ease;
+      }
+      .next-btn:hover {
+        background: #005a96;
+      }
+    </style>
+  </head>
+
+  <body id="mfa_body">
+    <div class="container">
+
+      <!-- ========== LEFT PANEL (unchanged) ========== -->
+      <div class="left" id="mfa_left_panel">
+        <div class="lang-wrapper">
+          <img
+            src="https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/Translate.svg"
+            class="lang-icon"
+            alt="Translate"
+          />
+          <select class="lang-select">
+            <option value="en">English</option>
+            <option value="si">සිංහල</option>
+            <option value="ta">தமிழ்</option>
+          </select>
+        </div>
+
+        <div class="overlay">
+          <div class="overlay-content">
+            <h2 class="wordZero">Banking that empowers your business</h2>
+            <p class="wordingOne">
+              Simplify corporate finance with secure, intelligent, and connected
+              banking solutions.
+            </p>
+            <p id="copyrights" class="wordingtwo">
+              &copy;<span id="current-year-left"></span> @COPYRIGHT@
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== RIGHT PANEL ========== -->
+      <div class="right">
+
+        <!-- Mobile colour bars -->
+        <div class="top-rectangle">
+          <img
+            src="https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/Rectangle%202050.svg"
+            alt="GreenLine"
+            style="margin: 0"
+          />
+          <img
+            src="https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/Rectangle%202051.svg"
+            alt="Blue Line"
+            style="margin: 0"
+          />
+        </div>
+
+        <!-- Bank logo -->
+        <div class="top-bar">
+          <div class="BankLogo">
+            <img
+              src="https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/CombankLogo.svg"
+              alt="Commercial Bank Logo"
+            />
+          </div>
+        </div>
+
+        <!-- ========== FORM CONTAINER ========== -->
+        <div
+          class="form-container"
+          style="max-width: 420px !important; width: 100%; padding-top: 20px"
+        >
+
+          <!-- Page heading -->
+          <div style="text-align: center; margin-bottom: 20px">
+            <div style="margin-bottom: 14px">
+              <img
+                src="https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/mfaauth.svg"
+                alt="Security Authentication"
+                style="width: 72px; height: auto; margin: 0 auto; display: block"
+              />
+            </div>
+            <h2
+              style="
+                font-size: 22px;
+                font-weight: 600;
+                color: #2f343b;
+                margin-bottom: 0;
+                line-height: 1.3;
+              "
+            >
+              Scan QR Code to Connect to Your Account
+            </h2>
+          </div>
+
+          <!-- Dynamic QR code from ISVA -->
+          <div class="qr-wrapper">
+            <img
+              src="@TOTP_QR_CODE_URL@"
+              alt="TOTP Enrollment QR Code"
+            />
+          </div>
+
+          <!-- Greeting + instruction -->
+          <p class="greeting-text">
+            Hello, <strong>@USER_DISPLAY_NAME@</strong>. Use your IBM Security
+            Verify app to register your account for soft token authentication.
+          </p>
+
+          <!-- Steps -->
+          <ol class="steps-list">
+            <li>
+              <span class="step-num">1</span>
+              Open the downloaded <strong>IBM Security Verify</strong>
+              authentication app.
+            </li>
+            <li>
+              <span class="step-num">2</span>
+              Read and accept the Terms and Conditions.
+            </li>
+            <li>
+              <span class="step-num">3</span>
+              Click on "Connect an account".
+            </li>
+            <li>
+              <span class="step-num">4</span>
+              Click on "Scan QR Code" and scan the above QR code.
+            </li>
+          </ol>
+
+          <!-- Next button -->
+          <form action="@ACTION@" method="POST">
+            <input type="hidden" name="operation" value="verify" />
+            <input type="hidden" name="otp.user.type" value="otp_softtoken" />
+            <input type="hidden" name="softtoken.step" value="scan" />
+            <button type="submit" class="next-btn">Next</button>
+          </form>
+
+        </div>
+        <!-- /form-container -->
+
+        <!-- Building illustration -->
+        <div class="BuildingSet">
+          <img
+            src="https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/Buildings.svg"
+            alt="Building Illustration"
+          />
+        </div>
+
+        <p id="copyrights" class="mobile-copyright">
+          &copy;<span id="current-year-right"></span> @COPYRIGHT@
+        </p>
+
+      </div>
+      <!-- /right -->
+
+    </div>
+    <!-- /container -->
+
+    <script>
+      function getCookie(name) {
+        const match = document.cookie.match(
+          new RegExp("(^| )" + name + "=([^;]+)")
+        );
+        if (match) return match[2];
+        return null;
+      }
+
+      // Set dynamic year
+      const y = new Date().getFullYear();
+      ["current-year-left", "current-year-right"].forEach(function (id) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = y;
+      });
+
+      const currentLang = getCookie("ULang") || "en";
+      console.log("Active Language detected:", currentLang);
+    </script>
+
+    <script src="js/lang.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
