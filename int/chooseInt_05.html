@@ -14,8 +14,8 @@
 
 <script>
 function getCookie(name) {
-const match = document.cookie.match(new RegExp('(^|)' + name + '=([^;]+)'));
-return match ? match [2] : null;
+    const match = document.cookie.match(new RegExp('(^|)' + name + '=([^;]+)'));
+    return match ? match [2] : null;
 }
 
 
@@ -116,7 +116,7 @@ streregf.submit();
             let seconds = Math.floor(remainingTime % 60);
             seconds = seconds < 10 ? '0' + seconds : seconds;
             var errorDiv = document.getElementById('errorDiv');
-            errorDiv.textContent = 'Your Account has been lock-out due to exceeding maximum attempts. Please Try-again in ' + `${minutes}:${seconds}`;
+            errorDiv.textContent = 'Your Account has been lock-out due to exceeding maximum attempts. Please Try-again in ' + ${minutes}:${seconds};
             if (remainingTime > 0) {
                
 
@@ -152,7 +152,7 @@ streregf.submit();
             }
 
             function deleteCookie(name) {
-                document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+                document.cookie = ${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;;
             }
 
             const extCookie = getCookie(cookieName);
@@ -183,5 +183,5 @@ streregf.submit();
         <p>Copyright © 2025 IBM. All Rights Reserved.</p>
     </footer>
 </body>
-
+<!-- (choose.html) -->
 </html>

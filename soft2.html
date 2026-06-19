@@ -11,25 +11,14 @@
 
     <style>
       @media (min-width: 708px) and (max-width: 1024px) {
-        .form-container {
-          transform: none !important;
-          margin: 0 auto !important;
-        }
-        .right {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
+        .form-container { transform: none !important; margin: 0 auto !important; }
+        .right { display: flex; flex-direction: column; justify-content: center; align-items: center; }
       }
     </style>
 
     <script>
       history.pushState(null, null, location.href);
-      window.onpopstate = function () {
-        history.go(1);
-      };
-
+      window.onpopstate = function () { history.go(1); };
       if (
         performance.navigation.type === 1 ||
         performance.getEntriesByType("navigation")[0]?.type === "reload"
@@ -41,344 +30,175 @@
     </script>
 
     <style>
-      /* --- UNIVERSAL RESPONSIVE SCREEN FIX --- */
       @media (min-width: 1025px) {
-        html,
-        body {
-          height: 100%;
-          margin: 0;
-          overflow: hidden;
-        }
-        .container {
-          height: 100vh;
-          box-sizing: border-box;
-        }
-        .left,
+        html, body { height: 100%; margin: 0; overflow: hidden; }
+        .container { height: 100vh; box-sizing: border-box; }
+        .left, .right { height: 100%; }
         .right {
-          height: 100%;
-        }
-        .right {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
+          display: flex; flex-direction: column;
+          justify-content: center; align-items: center;
           padding: 0 36px !important;
         }
-        .form-container {
-          transform: none !important;
-          margin: 0 auto;
-        }
+        .form-container { transform: none !important; margin: 0 auto; }
       }
+      .right { position: relative; overflow: visible; }
+      .form-container { position: relative; z-index: 10; }
 
-      .right {
-        position: relative;
-        overflow: visible;
-      }
-      .form-container {
-        position: relative;
-        z-index: 10;
-      }
-
-      /* --- TOP RECTANGLES (mobile only) --- */
       .top-rectangle {
-        position: absolute;
-        display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-        gap: 6px;
-        top: 0;
-        left: 32px;
-        z-index: 10;
+        position: absolute; display: flex; flex-direction: row;
+        align-items: flex-start; gap: 6px; top: 0; left: 32px; z-index: 10;
       }
-      @media (min-width: 769px) {
-        .top-rectangle {
-          display: none !important;
-        }
-      }
+      @media (min-width: 769px) { .top-rectangle { display: none !important; } }
 
-      /* --- PAGE SPECIFIC STYLES --- */
       .page-desc {
-        font-size: 13px;
-        color: #5f6368;
-        line-height: 1.6;
-        margin-bottom: 20px;
-        text-align: center;
+        font-size: 13px; color: #5f6368; line-height: 1.6;
+        margin-bottom: 20px; text-align: center;
       }
-      .page-desc strong {
-        color: #2f343b;
-        font-weight: 600;
-      }
+      .page-desc strong { color: #2f343b; font-weight: 600; }
 
-      .steps-list {
-        list-style: none;
-        padding: 0;
-        margin: 0 0 22px 0;
-      }
+      .steps-list { list-style: none; padding: 0; margin: 0 0 22px 0; }
       .steps-list li {
-        display: flex;
-        align-items: flex-start;
-        gap: 10px;
-        font-size: 13px;
-        color: #374151;
-        line-height: 1.6;
-        margin-bottom: 10px;
+        display: flex; align-items: flex-start; gap: 10px;
+        font-size: 13px; color: #374151; line-height: 1.6; margin-bottom: 10px;
       }
       .step-num {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        background: #0070ba;
-        color: #fff;
-        font-size: 11px;
-        font-weight: 700;
-        flex-shrink: 0;
-        margin-top: 2px;
+        display: inline-flex; align-items: center; justify-content: center;
+        min-width: 20px; height: 20px; border-radius: 50%;
+        background: #0070ba; color: #fff; font-size: 11px;
+        font-weight: 700; flex-shrink: 0; margin-top: 2px;
       }
 
-      .divider {
-        border: none;
-        border-top: 1px solid #e9ecef;
-        margin: 18px 0;
-      }
+      .divider { border: none; border-top: 1px solid #e9ecef; margin: 18px 0; }
 
-      .qr-row {
-        display: flex;
-        gap: 24px;
-        justify-content: center;
-        margin-bottom: 24px;
-      }
-      .qr-card {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-        flex: 1;
-      }
+      .qr-row { display: flex; gap: 24px; justify-content: center; margin-bottom: 24px; }
+      .qr-card { display: flex; flex-direction: column; align-items: center; gap: 10px; flex: 1; }
       .qr-card img.qr-img {
-        width: 120px;
-        height: 120px;
-        border: 1px solid #e2e8f0;
-        border-radius: 10px;
-        background: #f1f5f9;
-        object-fit: contain;
+        width: 120px; height: 120px; border: 1px solid #e2e8f0;
+        border-radius: 10px; background: #f1f5f9; object-fit: contain;
       }
-      .qr-card img.store-badge {
-        height: 32px;
-        width: auto;
-        object-fit: contain;
-      }
+      .qr-card img.store-badge { height: 32px; width: auto; object-fit: contain; }
 
       .next-btn {
-        display: block;
-        width: 100%;
-        padding: 14px;
-        background: #0070ba;
-        color: #fff;
-        font-size: 15px;
-        font-weight: 600;
-        border: none;
-        border-radius: 50px;
-        cursor: pointer;
-        text-align: center;
-        transition: background 0.2s ease;
+        display: block; width: 100%; padding: 14px;
+        background: #0070ba; color: #fff; font-size: 15px; font-weight: 600;
+        border: none; border-radius: 50px; cursor: pointer;
+        text-align: center; transition: background 0.2s ease;
       }
-      .next-btn:hover {
-        background: #005a96;
-      }
+      .next-btn:hover { background: #005a96; }
     </style>
   </head>
 
   <body id="mfa_body">
     <div class="container">
 
-      <!-- ========== LEFT PANEL (unchanged) ========== -->
+      <!-- LEFT PANEL -->
       <div class="left" id="mfa_left_panel">
         <div class="lang-wrapper">
-          <img
-            src="https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/Translate.svg"
-            class="lang-icon"
-            alt="Translate"
-          />
+          <img src="https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/Translate.svg" class="lang-icon" alt="Translate" />
           <select class="lang-select">
             <option value="en">English</option>
             <option value="si">සිංහල</option>
             <option value="ta">தமிழ்</option>
           </select>
         </div>
-
         <div class="overlay">
           <div class="overlay-content">
             <h2 class="wordZero">Banking that empowers your business</h2>
-            <p class="wordingOne">
-              Simplify corporate finance with secure, intelligent, and connected
-              banking solutions.
-            </p>
-            <p id="copyrights" class="wordingtwo">
-              &copy;<span id="current-year-left"></span> @COPYRIGHT@
-            </p>
+            <p class="wordingOne">Simplify corporate finance with secure, intelligent, and connected banking solutions.</p>
+            <p id="copyrights" class="wordingtwo">&copy;<span id="current-year-left"></span> @COPYRIGHT@</p>
           </div>
         </div>
       </div>
 
-      <!-- ========== RIGHT PANEL ========== -->
+      <!-- RIGHT PANEL -->
       <div class="right">
-
-        <!-- Mobile colour bars -->
         <div class="top-rectangle">
-          <img
-            src="https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/Rectangle%202050.svg"
-            alt="GreenLine"
-            style="margin: 0"
-          />
-          <img
-            src="https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/Rectangle%202051.svg"
-            alt="Blue Line"
-            style="margin: 0"
-          />
+          <img src="https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/Rectangle%202050.svg" alt="GreenLine" style="margin:0" />
+          <img src="https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/Rectangle%202051.svg" alt="Blue Line" style="margin:0" />
         </div>
 
-        <!-- Bank logo -->
         <div class="top-bar">
           <div class="BankLogo">
-            <img
-              src="https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/CombankLogo.svg"
-              alt="Commercial Bank Logo"
-            />
+            <img src="https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/CombankLogo.svg" alt="Commercial Bank Logo" />
           </div>
         </div>
 
-        <!-- ========== FORM CONTAINER ========== -->
-        <div
-          class="form-container"
-          style="max-width: 420px !important; width: 100%; padding-top: 20px"
-        >
-          <!-- Page heading -->
-          <div style="text-align: center; margin-bottom: 20px">
-            <div style="margin-bottom: 14px">
-              <img
-                src="https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/mfaauth.svg"
-                alt="Security Authentication"
-                style="width: 72px; height: auto; margin: 0 auto; display: block"
-              />
+        <div class="form-container" style="max-width:420px !important; width:100%; padding-top:20px">
+
+          <div style="text-align:center; margin-bottom:20px">
+            <div style="margin-bottom:14px">
+              <img src="https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/mfaauth.svg"
+                alt="Security Authentication" style="width:72px; height:auto; margin:0 auto; display:block" />
             </div>
-            <h2
-              style="
-                font-size: 22px;
-                font-weight: 600;
-                color: #2f343b;
-                margin-bottom: 8px;
-              "
-            >
+            <h2 style="font-size:22px; font-weight:600; color:#2f343b; margin-bottom:8px;">
               Download the IBM Security Verify App
             </h2>
           </div>
 
-          <!-- Description -->
           <p class="page-desc">
             Follow the instructions or scan the QR code to download the
             <strong>"IBM Security Verify"</strong> app on your mobile device.
           </p>
 
-          <!-- Steps -->
           <ol class="steps-list">
-            <li>
-              <span class="step-num">1</span>
-              Launch App Store (iOS) or Google PlayStore (Android) app.
-            </li>
-            <li>
-              <span class="step-num">2</span>
-              Search for <strong>"IBM Security Verify"</strong>.
-            </li>
+            <li><span class="step-num">1</span> Launch App Store (iOS) or Google PlayStore (Android) app.</li>
+            <li><span class="step-num">2</span> Search for <strong>"IBM Security Verify"</strong>.</li>
             <li>
               <span class="step-num">3</span>
-              Tap <strong>"Get"</strong> (iOS) or <strong>"Install"</strong>
-              (Android) to get the app.
+              Tap <strong>"Get"</strong> (iOS) or <strong>"Install"</strong> (Android) to get the app.
             </li>
           </ol>
 
           <hr class="divider" />
 
-          <!-- QR codes + store badges -->
           <div class="qr-row">
             <!-- iOS -->
             <div class="qr-card">
-              <img
-                class="qr-img"
-                src=""
-                alt="App Store QR Code"
-              />
-              <img
-                class="store-badge"
-                src=""
-                alt="Download on the App Store"
-              />
+              <img class="qr-img" src="" alt="App Store QR Code" />
+              <img class="store-badge" src="" alt="Download on the App Store" />
             </div>
-
             <!-- Android -->
             <div class="qr-card">
-              <img
-                class="qr-img"
-                src=""
-                alt="Google Play QR Code"
-              />
-              <img
-                class="store-badge"
-                src=""
-                alt="Get it on Google Play"
-              />
+              <img class="qr-img" src="" alt="Google Play QR Code" />
+              <img class="store-badge" src="" alt="Get it on Google Play" />
             </div>
           </div>
 
-          <!-- Next button -->
+          <!--
+            FIX: hidden fields now match internal soft_downloadpage.html exactly:
+            reregister=1, pass=2, redir=redir
+            These tell the backend init rule to route to the QR scan page next
+          -->
           <form action="@ACTION@" method="POST">
-            <input type="hidden" name="operation" value="verify" />
-            <input type="hidden" name="otp.user.type" value="otp_softtoken" />
-            <input type="hidden" name="softtoken.step" value="download" />
+            <input type="hidden" name="operation"   value="verify" />
+            <input type="hidden" name="reregister"  value="1" />
+            <input type="hidden" name="pass"        value="2" />
+            <input type="hidden" name="redir"       value="redir" />
             <button type="submit" class="next-btn">Next</button>
           </form>
 
-        </div>
-        <!-- /form-container -->
+        </div><!-- /form-container -->
 
-        <!-- Building illustration -->
         <div class="BuildingSet">
-          <img
-            src="https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/Buildings.svg"
-            alt="Building Illustration"
-          />
+          <img src="https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/Buildings.svg" alt="Building Illustration" />
         </div>
+        <p id="copyrights" class="mobile-copyright">&copy;<span id="current-year-right"></span> @COPYRIGHT@</p>
+      </div><!-- /right -->
 
-        <p id="copyrights" class="mobile-copyright">
-          &copy;<span id="current-year-right"></span> @COPYRIGHT@
-        </p>
-
-      </div>
-      <!-- /right -->
-
-    </div>
-    <!-- /container -->
+    </div><!-- /container -->
 
     <script>
       function getCookie(name) {
-        const match = document.cookie.match(
-          new RegExp("(^| )" + name + "=([^;]+)")
-        );
+        const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
         if (match) return match[2];
         return null;
       }
-
-      // Set year
       const y = new Date().getFullYear();
-      ["current-year-left", "current-year-right"].forEach((id) => {
+      ["current-year-left","current-year-right"].forEach((id) => {
         const el = document.getElementById(id);
         if (el) el.textContent = y;
       });
-
       const currentLang = getCookie("ULang") || "en";
-      console.log("Active Language detected:", currentLang);
     </script>
 
     <script src="js/lang.js"></script>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="GENERATOR" content="IBM Software Development Platform">
+    <title>QR Code Authentication</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/sps/static/tailwind.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 flex justify-center items-center min-h-screen">
+
+    <!-- Main Container -->
+    <div class="bg-white shadow-lg rounded-xl flex flex-col md:flex-row w-full max-w-4xl mx-4 p-6 md:p-8">
+        
+        <!-- Left Section: Welcome Message and Logos -->
+        <div class="flex-1 flex flex-col justify-between items-center text-center border-r border-gray-200 pr-4">
+            <h1 class="text-blue-800 font-bold mt-10 text-2xl mb-4">Welcome to Commercial Bank</h1>
+            <img src="/sps/static/logo.png" alt="Commercial Bank Logo" class="mx-auto mb-4"> <!-- Path to Commercial Bank logo -->
+            <!--<img src="/sps/static/logo.png" alt="Commercial Bank Logo" class="mb-8 w-48">--> <!-- Path to Commercial Bank logo -->
+            <img src="/sps/static/ibm.png" alt="IBM Logo" class="w-24"> <!-- Path to IBM logo -->
+        </div>
+        
+        <!-- Right Section: QR Code and Instructions -->
+        <div class="flex-1 flex flex-col justify-center items-center bg-blue-100 rounded-r-xl p-6 md:p-8">
+            <h2 class="text-center text-lg font-bold mb-4">Scan QR Code to Connect to your Account</h2>
+            <img class="w-48 h-48 mb-4" src="/sps/mga/user/mgmt/otp/qr/totp">
+            <p class="text-xs text-center mb-4">
+               <span class="font-bold">@USERNAME@</span>, Use your IBM Security Verify authentication app to register your account for soft token authentication.
+            </p>
+            <ul class="text-xs text-left list-decimal list-inside mb-4">
+                <li>Open the downloaded <span class="font-bold">IBM Security Verify authentication</span> app.</li>
+                <li>Read and accept the Terms and Conditions.</li>
+                <li>Click on "Connect an account".</li>
+                <li>Click on "Scan QR Code" and scan the above QR code.</li>
+            </ul>
+            <div class="flex justify-end">
+                <form method="POST" action="@ACTION@">
+                    <input type="hidden" id="pass" name="pass" value="2">
+                    <input type="hidden" name="operation" value="verify">
+                    <button id="next" class="text-black font-bold w-24 h-8 mt-4 bg-yellow-300 hover:bg-yellow-700 rounded-full"
+                        type="submit" name="Regenerate" value="Next">Next</button>
+                </form>
+            </div>
+            </div>
+    </div>
+
+    <footer class="text-center absolute bottom-0 text-xs py-4 bg-gray-100 text-gray-700 w-full">
+        <p>Copyright © 2025 IBM. All Rights Reserved.</p>
+    </footer>
+</body>
+
+
+<!-- softtokenInitial.html -->
+</html>

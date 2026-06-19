@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="GENERATOR" content="IBM Software Development Platform">
+    <title>MAC One-Time Password Delivery Selection</title>
+    <link rel="stylesheet" type="text/css" href="/sps/static/styles.css">
+    <script type="text/javascript">
+        // JavaScript function to automatically submit the form when the page loads
+        function autoSubmitForm() {
+            document.getElementById("otpForm").submit();
+        }
+
+        // Set the function to run when the page loads
+        window.onload = autoSubmitForm;
+    </script>
+</head>
+<body>
+    <!-- Display 'Loading...' while the form is being auto-submitted -->
+    <div class="loading-message" style="text-align: center; margin-top: 20%;">
+        <h1>Loading...</h1>
+    </div>
+
+    <!-- Hidden form to be auto-submitted -->
+    <form id="otpForm" method="POST" action="@ACTION@" style="display: none;">
+        <input type="hidden" name="operation" value="generate">
+        <!-- Converted radio button to hidden input -->
+        <input type="hidden" name="otp.user.otp-method.id" value="sms_rest">
+    </form>
+</body>
+
+<!-- (select_method.html) -->
+</html>

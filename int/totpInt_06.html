@@ -1,0 +1,277 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+
+<HEAD>
+
+    <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <META name="GENERATOR" content="IBM Software Development Platform">
+    <TITLE>MAC One-Time Password Login</TITLE>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Further Security Verification Required</title>
+        <link href="/sps/static/tailwind.css" rel="stylesheet">
+        <script src="/sps/mga/user/mgmt/html/common.js" type="text/javascript"></script>
+        <script src="/sps/mga/user/mgmt/html/otp/otp.js" type="text/javascript"></script>
+    </head>
+    <script>
+        function windowStart() {
+            document.getElementById('loader_wheel').style.visibility = 'hidden';
+            getSecretKeyUrl('totp');
+            displayError();
+            displayMappingRuleData();
+            displaySelectButton();
+            displayDeliveryAttr();
+            document.getElementById('otp1').focus();
+        }
+
+        function displayError() {
+            var errorDiv = document.getElementById('errorDiv');
+            var errorStr = "@ERROR_MESSAGE@";
+
+
+
+            if (errorStr !== "") {
+                if (errorStr.includes("FBTOTP337E")) {
+                    let remainingAttempts = errorStr.match(/You have \d+ attempts remaining\./);
+                    if (remainingAttempts) {
+                        console.log("Remaining Attempts:", remainingAttempts[0]); // Debugging: Log remaining attempts
+                        errorStr = remainingAttempts[0];
+                        errorStr = "Invalid Security code. Please Try Again. - " + errorStr;
+                        document.getElementById('regen_form').submit();
+                    }
+                } else if (errorStr.includes("FBTOTP338E")) {
+                    errorStr = errorStr.replace(/^\w+\s+/, '');
+                } else if (errorStr.includes("FBTOTP311E")) {
+                    errorStr = 'Security Code Expired. Click on Resend Security Code to regenerate.';
+                }
+                errorDiv.innerHTML = errorStr;
+                errorDiv.className = "errorMessage visible text-red-500 text-sm mb-4 bg-red-100 shadow-lg border-2 border-red-500 rounded p-4";
+            }
+
+        }
+
+        function displayMappingRuleData() {
+            var mappingRuleDataDiv = document.getElementById('mappingRuleDataDiv');
+            var mappingRuleDataStr = "@MAPPING_RULE_DATA@";
+            if (mappingRuleDataStr != "") {
+                mappingRuleDataDiv.innerHTML = "<b>Mapping rule data: <\/b>" + mappingRuleDataStr + "<br><br>";
+                mappingRuleDataDiv.className = "visible text-red-500 text-sm mb-4 bg-red-100 shadow-lg border-2 border-red-500 rounded p-4";
+            }
+        }
+
+        function displaySelectButton() {
+            var reselectButtonDiv = document.getElementById('reselectButtonDiv');
+            var displaySelectButton = "@DISPLAY_RESELECT_BUTTON@";
+            if (displaySelectButton != "") {
+                reselectButtonDiv.className = "";
+            }
+        }
+
+        function displayDeliveryAttr() {
+            var deliveryAttrSpan = document.getElementById('delivery_attr');
+            var deliverAttrTxt = "@OTP_DELIVERY_ATTR@";
+            if (deliverAttrTxt != "") {
+                var maskedEmail = maskEmail(deliverAttrTxt);
+                deliveryAttrSpan.innerHTML = " " + maskedEmail;
+            }
+        }
+
+        function maskEmail(email) {
+            var parts = email.split("@");
+            var name = parts[0];
+            var domain = parts[1];
+            var maskedName = name.substring(0, 4) + "*".repeat(name.length - 4);
+            return maskedName + "@" + domain;
+        }
+        window.onload = windowStart;
+
+        function handleKeyUp(event, currentInput, prevInput, nextInput, formElement) {
+
+            if (currentInput && !nextInput && event.key !== ' ' && event.key !== 'Enter' && event.key !== 'Backspace' && (currentInput.value != "" && !isNaN(currentInput.value))) {
+                document.getElementById('otp1').disabled = true;
+                document.getElementById('otp2').disabled = true;
+                document.getElementById('otp3').disabled = true;
+                document.getElementById('otp4').disabled = true;
+                document.getElementById('otp5').disabled = true;
+                document.getElementById('otp6').disabled = true;
+                document.getElementById('alt_btn').disabled = true;
+                document.getElementById('boxes').style.visibility = 'hidden';
+                document.getElementById('loader_wheel').style.visibility = 'visible';
+                document.getElementById('regen_form').style.visibility = 'hidden';
+                document.getElementById('rereg').style.visibility = 'hidden';
+
+            }
+
+            if (event.key === ' ' || event.key === 'Enter') {
+                event.preventDefault();
+                currentInput.value = '';
+                return;
+            } else {
+                const currentValue = currentInput.value;
+
+                if (isNaN(currentValue)) {
+                    currentInput.value = '';
+                    return;
+                }
+                if (currentValue !== '' && nextInput) {
+                    nextInput.disabled = false;
+                    nextInput.focus();
+                } else if (event.key === 'Backspace') {
+                    event.preventDefault();
+                    if (currentValue === '' && prevInput) {
+                        currentInput.disabled = true;
+                        prevInput.disabled = false;
+                        prevInput.focus();
+                        prevInput.value = ''; // Clear the previous input
+                        updateOtp();
+                    }
+                } else if (currentValue !== '' && nextInput) {
+                    nextInput.focus(); // Move to the next input box if not empty
+                } else if (currentValue !== '' && !nextInput && formElement && event.key !== 'Enter' && event.key !== 'Backspace' && !isNaN(currentInput.value) ) {
+                    const otp1 = document.getElementById('otp1').value;
+                    const otp2 = document.getElementById('otp2').value;
+                    const otp3 = document.getElementById('otp3').value;
+                    const otp4 = document.getElementById('otp4').value;
+                    const otp5 = document.getElementById('otp5').value;
+                    const otp6 = document.getElementById('otp6').value;
+                    if (otp1 && otp2 && otp3 && otp4 && otp5 && otp6 && event.key !== 'Enter') {
+                        formElement.submit();
+                    }
+
+
+                }
+                updateOtp();
+            }
+        }
+    </script>
+
+    <body class="min-h-screen  bg-gray-100 flex flex-col justify-between">
+        <div> </div>
+        <div id="main" class="flex items-center justify-center bg-gray-100 ">
+            <div class="bg-white shadow-lg rounded-xl flex flex-col md:flex-row w-full max-w-4xl mx-4">
+                <div class="form-details flex-1 p-6 md:p-10 text-center bg-white rounded-l-xl">
+                    <h2 class="text-blue-800 font-bold text-2xl mb-4">Welcome to Commercial <br> Bank</h2>
+                    <img src="/sps/static/logo.png" alt="Commercial Bank Logo" class="mx-auto mb-4">
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <img src="/sps/static/ibm.png" alt="IBM Logo" class="mx-auto mb-4 w-24 h-12">
+                </div>
+                <div class="form-content flex-1 p-6 md:p-10 bg-blue-100 rounded-r-xl">
+                    <h2 id="title" class="text-center text-xl font-bold mb-4">Further Security Verification Required</h2>
+                    <div id="text" class="instructions text-center text-sm mb-4">
+                        Please enter the 6-digit generated code in the IBM Security Verify Authentication app
+                        <div class="w-full flex">
+                            <img id="loader_wheel" src="/sps/static/loader_light.gif" alt="Loading" class="mx-auto m-4 w-10 h-10 justify-center">
+                        </div>
+                    </div>
+                    <div class="hidden errorMessage text-red-500 mb-4" id="errorDiv"></div>
+
+                    <form id="otpForm" method="POST" action="@ACTION@" autocomplete="off">
+                        <div class="" id="mappingRuleDataDiv"></div>
+
+
+                        <div id="boxes" class="section mb-4 grid grid-cols-6 gap-2 justify-center">
+                            <input type="text" maxlength="1" pattern="[0-9]*" class="w-10 px-1 py-1 border rounded-lg shadow focus:outline-none focus:border-blue-500 mb-4 text-2xl text-center" id="otp1" oninput="updateOtp();" onkeyup="handleKeyUp(event, this, null, document.getElementById('otp2'));">
+
+                            <input type="text" maxlength="1" pattern="[0-9]*" class="w-10 px-1 py-1 border rounded-lg shadow focus:outline-none focus:border-blue-500 mb-4 text-2xl text-center" id="otp2" disabled oninput="updateOtp();" onkeyup="handleKeyUp(event, this, document.getElementById('otp1'), document.getElementById('otp3'));">
+
+                            <input type="text" maxlength="1" pattern="[0-9]*" class="w-10 px-1 py-1 border rounded-lg shadow focus:outline-none focus:border-blue-500 mb-4 text-2xl text-center" id="otp3" disabled oninput="updateOtp();" onkeyup="handleKeyUp(event, this, document.getElementById('otp2'), document.getElementById('otp4'));">
+
+                            <input type="text" maxlength="1" pattern="[0-9]*" class="w-10 px-1 py-1 border rounded-lg shadow focus:outline-none focus:border-blue-500 mb-4 text-2xl text-center" id="otp4" disabled oninput="updateOtp();" onkeyup="handleKeyUp(event, this, document.getElementById('otp3'), document.getElementById('otp5'));">
+
+                            <input type="text" maxlength="1" pattern="[0-9]*" class="w-10 px-1 py-1 border rounded-lg shadow focus:outline-none focus:border-blue-500 mb-4 text-2xl text-center" id="otp5" disabled oninput="updateOtp();" onkeyup="handleKeyUp(event, this, document.getElementById('otp4'), document.getElementById('otp6'));">
+
+                            <input type="text" maxlength="1" pattern="[0-9]*" disabled onkeyup="handleKeyUp(event, this, document.getElementById('otp5'), null, document.getElementById('otpForm'));" class="w-10 px-1 py-1 border rounded-lg shadow focus:outline-none focus:border-blue-500 mb-4 col-span-1 text-center text-2xl"
+                            id="otp6" oninput="updateOtp()" ;>
+                            <INPUT type="hidden" name="otp.user.otp-hint" class="short" id="otphint" value="@OTP_HINT@">
+                            <input type="hidden" name="operation" value="verify">
+
+                            <div class="flex justify-center">
+                                <input class="submitButton bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline hidden" type="submit" name="Submit" value="Submit" id="otpSubmit" @OTP_LOGIN_DISABLED@>
+                            </div>
+                            <INPUT type="hidden" class="short" id="otppswd" name="otppswd" maxlength="40">
+                <INPUT type="hidden" class="short" id="secretKey" name="secretKey" maxlength="45">
+                        </div>
+
+                        <script>
+                            function updateOtp() {
+                                const otp1 = document.getElementById('otp1').value;
+                                const otp2 = document.getElementById('otp2').value;
+                                const otp3 = document.getElementById('otp3').value;
+                                const otp4 = document.getElementById('otp4').value;
+                                const otp5 = document.getElementById('otp5').value;
+                                const otp6 = document.getElementById('otp6').value;
+                                document.getElementById('otppswd').value = otp1 + otp2 + otp3 + otp4 + otp5 + otp6;
+                            }
+                        </script>
+                    </form>
+
+
+                    <FORM id="regen_form" method="POST" action="@RESELECT_ACTION@">
+                        <button type="submit" id="alt_btn" name="Resel" class="text-blue-600 font-bold" type="submit" value="Resend security code">Try an alternative MFA method?</button>
+
+                    </FORM>
+
+                    <button id="rereg" type="button" onClick="resetOTP('totp')" class="text-blue-600 font-bold" value="">Re-Register a Device</button>
+                    <script>
+                        var err = '@ERROR_MESSAGE@';
+
+                        if (err != "" && err.includes("seconds")) {
+                            document.getElementById('boxes').style.visibility = 'hidden';
+                            document.getElementById('loader_wheel').style.visibility = 'visible';
+                            document.getElementById('regen_form').style.visibility = 'hidden';
+                            document.getElementById('rereg').style.visibility = 'hidden';
+                            document.getElementById('main').style.visibility = 'hidden';  
+                            // location.reload();
+                            document.getElementById('regen_form').submit();
+   
+                        }
+
+                       
+                        document.getElementById("regen_form").addEventListener("keydown", function(event) {
+                            if (event.key === "Enter") {
+
+                                event.preventDefault();
+                                return;
+                            }
+                        });
+                        document.getElementById("otpForm").addEventListener("keydown", function(event) {
+                            if (event.key === "Enter") {
+                                event.preventDefault();
+                                return;
+                            }
+                        });
+
+
+                   </script>
+
+
+
+                    <form id="reset" action='@ACTION@' method="POST">
+                         <input type="hidden" id="reregister" name="reregister" value="2">
+                         <input type="hidden" name="operation" value="verify">
+                    </form>
+                    <script>
+                        document.getElementById("reset").addEventListener("keydown", function(event) {
+                            if (event.key === "Enter") {
+                                event.preventDefault();
+                                return;
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+         
+        </div>
+        <div class="hidden" id="totpSecretKeyUrl"></div>
+        <footer class="text-center text-xs py-4 bg-gray-100 text-gray-700">
+            <p>Copyright © 2025 IBM. All Rights Reserved.</p>
+        </footer>
+
+    </body>
+<!-- (TOTP.html) -->
+</html>

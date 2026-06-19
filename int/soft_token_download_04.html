@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="GENERATOR" content="IBM Software Development Platform">
+    <title>Soft Token</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link href="/sps/static/tailwind.css" rel="stylesheet">
+</head>
+<script>
+    var display = "registration";
+</script>
+<body class="bg-gray-100 flex flex-col justify-between min-h-screen">
+
+    <!-- Registration Div -->
+    <div id="registration" class="flex items-center justify-center flex-grow bg-gray-100 ">
+        <div class="bg-white p-8 shadow-lg rounded-xl flex flex-col md:flex-row w-full max-w-4xl mx-4">
+            <div class="form-details flex-1 flex flex-col justify-between p-6 md:p-10 text-center bg-white rounded-l-xl">
+                <h2 class="text-blue-800 font-bold text-2xl mb-4">Welcome to Commercial Bank</h2>
+                <div><img src="/sps/static/logo.png" alt="Commercial Bank Logo" class="mx-auto mb-4"></div>
+                <div><img src="/sps/static/ibm.png" alt="IBM Logo" class="mx-auto mb-4 w-24 h-12"></div>
+            </div>
+            <div class="form-content items-center flex-1 p-6 md:p-10 bg-blue-100 rounded-r-xl">
+                <div class="items-center flex flex-col">
+                    <div class="text-center text-md text-blue-800 font-bold mb-4">Download the IBM Security Verify App</div>
+                    <div class="text-xs mb-4"><strong>Follow the instructions or scan the QR code to download the "IBM Security Verify" app on your mobile device.</strong>
+                        <div class="items-center mt-4 text-xs">1. Launch App Store (iOS) or Google Play Store (Android) App.</div>
+                        <div class="items-center text-xs">2. Search for "IBM Security Verify".</div>
+                        <div class="items-center text-xs">3. Tap "Get" (iOS) or "Install" (Android) to download the app.</div>
+                    </div>
+                    
+                    <div class="hidden" id="totpSecretKeyUrl"></div>
+                </div>
+                <div class="mt-4 flex px-12 justify-between"><img class="w-24" src="/sps/static/apple_qr.png" alt=""><img class="w-24" src="/sps/static/play_qr.png" alt=""></div>
+                <div class="mt-4 flex px-12 justify-between"><img class="w-24" src="/sps/static/apple.png" alt=""><img class="w-24" src="/sps/static/play.png" alt=""></div>
+                <div class="hidden errorMessage text-red-500 mb-4" id="errorDiv"></div>
+
+                <!-- @PASS@ -->
+                <div class="flex justify-end">
+                    <form method="POST" action="@ACTION@">
+                        <input type="hidden" id="reregister" name="reregister" value="1">
+                        <input type="hidden" id="pass" name="pass" value="2">
+                        <input type="hidden" name="redir" value="redir">
+                        <input type="hidden" name="operation" value="verify">
+                        <button id="next" class="text-black font-bold w-24 h-8 mt-4 bg-yellow-300 hover:bg-yellow-700 rounded-full"
+                            type="submit" name="Regenerate" value="Next">Next</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+
+    <footer class="text-center text-xs py-4 bg-gray-100 text-gray-700">
+        <p>Copyright © 2025 IBM. All Rights Reserved.</p>
+    </footer>
+</body>
+
+<!-- (soft_downloadpage.html) -->
+
+</html>

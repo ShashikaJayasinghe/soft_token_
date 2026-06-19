@@ -24,15 +24,14 @@
           justify-content: center;
           align-items: center;
         }
-        
-.mfa-btn-sub{
-            text-decoration: none !important;
-            font-weight: 400 !important;
+        .mfa-btn-sub{
+          text-decoration: none !important;
+          font-weight: 400 !important;
         }
       }
     </style>
+
     <script>
-      // Ultimate back button prevention
       history.pushState(null, null, location.href);
       window.onpopstate = function () {
         history.go(1);
@@ -42,52 +41,39 @@
         location.replace("page2.html");
       }
 
-      // Check if page was refreshed
       if (
         performance.navigation.type === 1 ||
         performance.getEntriesByType("navigation")[0]?.type === "reload"
       ) {
-        // Redirect on refresh
         window.location.href = "@REFRESH@";
       } else {
-        // Mark that we visited this page normally
         sessionStorage.setItem("visitedFrom", "mfaSelection.html");
       }
     </script>
 
     <script>
       (function () {
-        const autoSubmitFlag = "@AUTO_SUBMIT@"; // "false" means only one MFA option
-        const autoSubmitType = "@AUTO_SUBMIT_TYPE@"; // "SMS", "EMAIL", or "NONE"
+        const autoSubmitFlag = "@AUTO_SUBMIT@";
+        const autoSubmitType = "@AUTO_SUBMIT_TYPE@";
         const lockedTime = "@EXT@";
         const thevalue = "@MFA_SINGLE_VALUE@";
         const mfaValueAvailable = "@MFA_VALUE_AVAILABLE@";
         const lockActive = lockedTime && lockedTime.trim() !== "";
         const countdown = parseInt("@COUNT_DOWN_TIME@") || 0;
-        const loginUrl = "/pkmslogin.form"; // change to your login path if needed
+        const loginUrl = "/pkmslogin.form";
 
-        console.log(
-          "AUTO_SUBMIT:",
-          autoSubmitFlag,
-          "TYPE:",
-          autoSubmitType,
-          "LOCK:",
-          lockActive,
-        );
+        console.log("AUTO_SUBMIT:", autoSubmitFlag, "TYPE:", autoSubmitType, "LOCK:", lockActive);
 
-        // Case 1: Account locked → just show page normally
         if (lockActive) {
           console.log("User is locked — showing page, no auto-submit.");
           return;
         }
 
-        // Case 2: One MFA method → instant auto-submit
         if (
           autoSubmitFlag === "false" &&
           autoSubmitType !== "NONE" &&
           mfaValueAvailable === "true"
         ) {
-          // Hide page immediately to avoid flicker
           document.write("<style>body { display:none !important; }</style>");
 
           document.addEventListener("DOMContentLoaded", function () {
@@ -103,7 +89,7 @@
               element.closest("form").submit();
             } else {
               console.error("Auto-submit element not found!");
-              document.body.style.display = "block"; // fallback: show page
+              document.body.style.display = "block";
             }
           });
         }
@@ -111,22 +97,10 @@
     </script>
 
     <style>
-      /* --- UNIVERSAL RESPONSIVE SCREEN FIX --- */
       @media (min-width: 1025px) {
-        html,
-        body {
-          height: 100%;
-          margin: 0;
-          overflow: hidden;
-        }
-        .container {
-          height: 100vh;
-          box-sizing: border-box;
-        }
-        .left,
-        .right {
-          height: 100%;
-        }
+        html, body { height: 100%; margin: 0; overflow: hidden; }
+        .container { height: 100vh; box-sizing: border-box; }
+        .left, .right { height: 100%; }
         .right {
           display: flex;
           flex-direction: column;
@@ -134,22 +108,12 @@
           align-items: center;
           padding: 0 36px !important;
         }
-        .form-container {
-          transform: none !important;
-          margin: 0 auto;
-        }
+        .form-container { transform: none !important; margin: 0 auto; }
       }
 
-      .right {
-        position: relative;
-        overflow: visible;
-      }
-      .form-container {
-        position: relative;
-        z-index: 10;
-      }
+      .right { position: relative; overflow: visible; }
+      .form-container { position: relative; z-index: 10; }
 
-      /* --- PURE CSS TOP RECTANGLES --- */
       .top-rectangle {
         position: absolute;
         display: flex;
@@ -161,7 +125,6 @@
         z-index: 10;
       }
 
-      /* --- CUSTOM MFA BUTTON STYLES --- */
       .mfa-btn {
         display: flex;
         align-items: center;
@@ -180,7 +143,6 @@
         background: #f8fafc;
         box-shadow: 0 4px 12px rgba(0, 112, 186, 0.08);
       }
-
       .mfa-btn > img {
         width: 42px;
         height: 42px;
@@ -188,7 +150,6 @@
         flex-shrink: 0;
         display: block;
       }
-
       .mfa-btn-title {
         font-size: 14px;
         font-weight: 600;
@@ -211,16 +172,11 @@
         gap: 8px;
         margin-bottom: 16px;
       }
-      .opacity-50 {
-        opacity: 0.5 !important;
-      }
-      .cursor-not-allowed {
-        cursor: not-allowed !important;
-      }
-       @media (min-width: 769px) {
-        .top-rectangle {
-          display: none !important;
-        }
+      .opacity-50 { opacity: 0.5 !important; }
+      .cursor-not-allowed { cursor: not-allowed !important; }
+
+      @media (min-width: 769px) {
+        .top-rectangle { display: none !important; }
       }
     </style>
   </head>
@@ -241,62 +197,24 @@
           <div class="overlay-content">
             <h2 class="wordZero">Banking that empowers your business</h2>
             <p class="wordingOne">
-              Simplify corporate finance with secure, intelligent, and connected
-              banking solutions.
+              Simplify corporate finance with secure, intelligent, and connected banking solutions.
             </p>
-
-       <p id="copyrights" class="wordingtwo">
-&copy;<span id="current-year">2026</span> @COPYRIGHT@
-</p>
-
-<script>
-    const yearSpan = document.getElementById('current-year');
-    if (yearSpan) {
-        yearSpan.textContent = new Date().getFullYear();
-    }
-</script>
+            <p id="copyrights" class="wordingtwo">
+              &copy;<span id="current-year-left"></span> @COPYRIGHT@
+            </p>
+            <script>
+              const yrLeft = document.getElementById('current-year-left');
+              if (yrLeft) yrLeft.textContent = new Date().getFullYear();
+            </script>
           </div>
         </div>
       </div>
 
       <div class="right">
         <div class="top-rectangle">
-          <img
-            src="https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/Rectangle%202050.svg"
-            alt="GreenLine"
-            style="margin: 0"
-          />
-          <img
-            src="https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/Rectangle%202051.svg"
-            alt="Blue Line"
-            style="margin: 0"
-          />
+          <img src="https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/Rectangle%202050.svg" alt="GreenLine" style="margin: 0" />
+          <img src="https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/Rectangle%202051.svg" alt="Blue Line" style="margin: 0" />
         </div>
-
-        <!-- <div
-          class="back-btn-wrapper"
-          style="position: absolute; top: 56px; left: 32px; z-index: 10"
-        >
-          <button
-            type="button"
-            class="back-btn"
-            style="
-              background: transparent;
-              border: none;
-              cursor: pointer;
-              padding: 0;
-              transition: opacity 0.2s ease;
-            "
-            aria-label="Go Back"
-            onclick="history.back()"
-          >
-            <img
-              src="https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/backbtnBG.svg"
-              alt="Back"
-              style="width: 36px; height: 36px; display: block"
-            />
-          </button>
-        </div> -->
 
         <div class="top-bar">
           <div class="BankLogo">
@@ -304,196 +222,89 @@
           </div>
         </div>
 
-        <div
-          class="form-container"
-          style="max-width: 420px !important; width: 100%; padding-top: 20px"
-        >
+        <div class="form-container" style="max-width: 420px !important; width: 100%; padding-top: 20px">
+
           <div style="text-align: center; margin-bottom: 28px">
             <div style="margin-bottom: 16px">
               <img
                 src="https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/mfaauth.svg"
                 alt="Security Authentication"
-                style="
-                  width: 72px;
-                  height: auto;
-                  margin: 0 auto;
-                  display: block;
-                "
+                style="width: 72px; height: auto; margin: 0 auto; display: block;"
               />
             </div>
-            <h2
-              id="mfa_titleOne"
-              style="
-                font-size: 22px;
-                font-weight: 600;
-                color: #2f343b;
-                margin-bottom: 6px;
-              "
-            >
+            <h2 id="mfa_titleOne" style="font-size: 22px; font-weight: 600; color: #2f343b; margin-bottom: 6px;">
               Two Factor Authentication
             </h2>
-            <p
-              style="
-                font-size: 13px;
-                color: #5f6368;
-                line-height: 1.4;
-                text-align: center;
-                width: 100%;
-                margin: 0 auto;
-                white-space: normal;
-              "
-            >
+            <p style="font-size: 13px; color: #5f6368; line-height: 1.4; text-align: center; width: 100%; margin: 0 auto; white-space: normal;">
               Please select a method to receive your verification code
             </p>
           </div>
 
-          <!-- <div id="errorB" class="relative hidden" style="display: none">
-            <div id="backendErrors" class="error-box">
-              <img
-                src="https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/error_icon.png"
-                class="flex-shrink-0"
-                alt="Error Icon"
-                width="16px"
-                style="margin-top: 2px"
-              />
-              <div class="text-red-500 text-left" style="font-size: 12px">
-                <b>@BMESS@</b>
-                <b>@BMESS_SI@</b>
-                <b>@BMESS_TA@</b>
-                <span id="backendError"></span>
-              </div>
-            </div>
-          </div> -->
-
           <div id="errorDiv" style="display: none; margin-bottom: 16px"></div>
 
+          <!-- Email OTP -->
           <form action="@ACTION@" method="POST">
             <input type="hidden" name="operation" value="verify" />
             <input type="hidden" name="otp.user.type" value="otp_email" />
-            <button
-              id="email"
-              type="submit"
-              class="mfa-btn @OTP_FORBIDDEN_EMAIL@ @OTP_HIDE_EMAIL@"
-              @OTP_DIS_EMAIL@
-            >
+            <button id="email" type="submit" class="mfa-btn @OTP_FORBIDDEN_EMAIL@ @OTP_HIDE_EMAIL@" @OTP_DIS_EMAIL@>
               <img src="/sps/static/email.svg" alt="Email Icon" />
               <div>
-                <div id="otp_email_title" class="mfa-btn-title">
-                  Request OTP to email
-                </div>
-                <div id="otp_email_sub" class="mfa-btn-sub">
-                  Get a verification code sent to your registered email address
-                </div>
+                <div id="otp_email_title" class="mfa-btn-title">Request OTP to email</div>
+                <div id="otp_email_sub" class="mfa-btn-sub">Get a verification code sent to your registered email address</div>
               </div>
             </button>
           </form>
 
+          <!-- Mobile OTP -->
           <form action="@ACTION@" method="POST">
             <input type="hidden" name="operation" value="verify" />
             <input type="hidden" name="otp.user.type" value="otp_sms" />
-            <button
-              id="sms"
-              type="submit"
-              class="mfa-btn @OTP_FORBIDDEN_SMS@ @OTP_HIDE_SMS@"
-              @OTP_DIS_SMS@
-            >
+            <button id="sms" type="submit" class="mfa-btn @OTP_FORBIDDEN_SMS@ @OTP_HIDE_SMS@" @OTP_DIS_SMS@>
               <img src="https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/mobile.svg" alt="Mobile Icon" />
               <div>
-                <div id="otp_mobile_title" class="mfa-btn-title">
-                  Request OTP to mobile
-                </div>
-                <div id="otp_mobile_sub" class="mfa-btn-sub">
-                  Get a verification code sent to your registered mobile number
-                </div>
+                <div id="otp_mobile_title" class="mfa-btn-title">Request OTP to mobile</div>
+                <div id="otp_mobile_sub" class="mfa-btn-sub">Get a verification code sent to your registered mobile number</div>
               </div>
             </button>
           </form>
 
+          <!-- Soft Token -->
           <form action="@ACTION@" method="POST">
             <input type="hidden" name="operation" value="verify" />
             <input type="hidden" name="otp.user.type" value="otp_softtoken" />
-
-            <button
-                id="softtoken"
-                type="submit"
-                class="mfa-btn @OTP_FORBIDDEN_SOFTTOKEN@ @OTP_HIDE_SOFTTOKEN@"
-                @OTP_DIS_SOFTTOKEN@
-            >
-                <img
-                    src="https://dummyimage.com/42x42/e5e7eb/6b7280.png&text=S"
-                    alt="Soft Token Icon"
-                />
-
-                <div>
-                    <div class="mfa-btn-title">
-                        Soft Token
-                    </div>
-
-                    <div class="mfa-btn-sub">
-                        Get a verification code from the IBM Security Verify authentication app.
-                    </div>
-                </div>
+            <button id="softtoken" type="submit" class="mfa-btn @OTP_FORBIDDEN_SOFTTOKEN@ @OTP_HIDE_SOFTTOKEN@" @OTP_DIS_SOFTTOKEN@>
+              <img src="" alt="Soft Token Icon" />
+              <div>
+                <div class="mfa-btn-title">Soft Token</div>
+                <div class="mfa-btn-sub">Get a verification code from the IBM Security Verify authentication app.</div>
+              </div>
             </button>
-        </form>
+          </form>
 
           <form action="@RESELECT@" method="POST" id="reset">
             <input type="hidden" name="operation" value="verify" />
             <input type="hidden" name="otp.user.type" value="reset" />
           </form>
+
         </div>
 
         <div class="BuildingSet">
           <img src="https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/Buildings.svg" alt="Building Illustration" />
         </div>
-              <p id="copyrights" class="mobile-copyright">
-&copy;<span id="current-year">2026</span> @COPYRIGHT@
-</p>
 
-<script>
-    const yearSpan = document.getElementById('current-year');
-    if (yearSpan) {
-        yearSpan.textContent = new Date().getFullYear();
-    }
-</script>
+        <p id="copyrights" class="mobile-copyright">
+          &copy;<span id="current-year-right"></span> @COPYRIGHT@
+        </p>
+        <script>
+          const yrRight = document.getElementById('current-year-right');
+          if (yrRight) yrRight.textContent = new Date().getFullYear();
+        </script>
       </div>
     </div>
 
     <script>
-      function showMacroBasedOnCookie() {
-        function getCookie(name) {
-          const match = document.cookie.match(
-            new RegExp("(^| )" + name + "=([^;]+)"),
-          );
-          if (match) return match[2];
-          return null;
-        }
-
-        const lang = getCookie("ULang") || "en";
-
-        let message = "";
-        if (lang === "si") {
-          message = "@MESS_SI@";
-        } else if (lang === "ta") {
-          message = "@MESS_TA@";
-        } else {
-          message = "@MESS@";
-        }
-
-        const errorSpan = document.getElementById("backendError");
-        if (errorSpan) {
-          errorSpan.textContent = message;
-          errorSpan.parentElement.style.display = "block";
-        }
-      }
-
-      document.addEventListener("DOMContentLoaded", showMacroBasedOnCookie);
-    </script>
-
-    <script>
       function getCookie(name) {
-        const match = document.cookie.match(
-          new RegExp("(^| )" + name + "=([^;]+)"),
-        );
+        const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
         if (match) return match[2];
         return null;
       }
@@ -509,18 +320,12 @@
 
       let startTimestamp = parseInt("@EXT@", 10) || 0;
       const countdownDuration = parseInt("@COUNT_DOWN_TIME@", 10) || 0;
-
       const elapsedTime = (Date.now() - startTimestamp) / 1000;
       let v_remainingTime = Math.ceil(countdownDuration - elapsedTime);
 
       function clearISVACookies() {
         const cookiesToDelete = ["IV_JCT", "PD-S-SESSION-ID"];
-        const domains = [
-          window.location.hostname,
-          ".combank.net",
-          "devisvaext02.combank.net",
-        ];
-
+        const domains = [window.location.hostname, ".combank.net", "devisvaext02.combank.net"];
         cookiesToDelete.forEach((name) => {
           domains.forEach((domain) => {
             document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${domain};`;
@@ -532,15 +337,8 @@
 
       function logoutAndRedirect() {
         fetch("/", { method: "GET", credentials: "include" })
-          .then(() => {
-            console.log("Server logout completed, clearing JS cookies...");
-            clearISVACookies();
-            window.location.replace("@REDIRECTION_OTP_LOCK@");
-          })
-          .catch((err) => {
-            console.error("Logout failed, still redirecting:", err);
-            window.location.replace("@REDIRECTION_OTP_LOCK@");
-          });
+          .then(() => { clearISVACookies(); window.location.replace("@REDIRECTION_OTP_LOCK@"); })
+          .catch((err) => { window.location.replace("@REDIRECTION_OTP_LOCK@"); });
       }
 
       function updateCountdown() {
@@ -549,11 +347,7 @@
 
         if (remainingTime <= 0) {
           remainingTime = 0;
-          console.log(
-            "Countdown finished — clearing cookies and redirecting...",
-          );
           document.getElementById("errorDiv").style.display = "none";
-
           clearISVACookies();
           logoutAndRedirect();
         }
@@ -565,57 +359,33 @@
         const messageDiv = document.getElementById("errorMessageText");
         if (messageDiv) {
           const currentLang = getCookie("ULang") || "en";
-          const langObj =
-            window.languages &&
-            window.languages[currentLang] &&
-            window.languages[currentLang].errors
-              ? window.languages[currentLang].errors
-              : null;
-
-          const lockTemp =
-            langObj && langObj.MFALOCKTEMP
-              ? langObj.MFALOCKTEMP
-              : "@MFALOCKTEMP@";
-          const lockRemain =
-            langObj && langObj.MFALOCKTEMPREMAIN
-              ? langObj.MFALOCKTEMPREMAIN
-              : "@MFALOCKTEMPREMAIN@";
-
-          // messageDiv.textContent = `${lockTemp} ${minutes}:${seconds} ${lockRemain}`;
+          const langObj = window.languages && window.languages[currentLang] && window.languages[currentLang].errors
+            ? window.languages[currentLang].errors : null;
+          const lockTemp = langObj && langObj.MFALOCKTEMP ? langObj.MFALOCKTEMP : "@MFALOCKTEMP@";
+          const lockRemain = langObj && langObj.MFALOCKTEMPREMAIN ? langObj.MFALOCKTEMPREMAIN : "@MFALOCKTEMPREMAIN@";
           messageDiv.innerHTML = `${lockTemp} <span style="display: inline-block; min-width: 35px; text-align: center;">${minutes}:${seconds}</span> ${lockRemain}`;
-
-
         }
       }
 
       if (startTimestamp && v_remainingTime > 0) {
-        // Hide standard error boxes
-        const errorB = document.getElementById("errorB");
-        if (errorB) errorB.style.display = "none";
-
-        const backendErrors = document.getElementById("backendErrors");
-        if (backendErrors) backendErrors.style.display = "none";
-
-        // 1. Get the correct language for the Bold Title macro
         const lang = getCookie("ULang") || "en";
         let boldTitle = "@BMESS@";
         if (lang === "si") boldTitle = "@BMESS_SI@";
         if (lang === "ta") boldTitle = "@BMESS_TA@";
 
-        // 2. Show countdown error with the Bold Title + Timer Span
         const errorDiv = document.getElementById("errorDiv");
         errorDiv.style.display = "block";
         errorDiv.innerHTML = `
-        <div class="error-box">
-            <img src="https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/error_icon.png" class="pr-1 flex-shrink-0" alt="Error Icon" width="16px" style="margin-top: 2px;" />
+          <div class="error-box">
+            <img src="https://s3.ap-southeast-1.amazonaws.com/static.combank.cloud/photos/shares/resources/error_icon.png"
+              class="pr-1 flex-shrink-0" alt="Error Icon" width="16px" style="margin-top: 2px;" />
             <div style="color: #ef4444; font-size: 12px; text-align: left; line-height: 1.4;">
-                <b style="color: #ef4444;">${boldTitle}</b> <span id="errorMessageText"></span>
+              <b style="color: #ef4444;">${boldTitle}</b> <span id="errorMessageText"></span>
             </div>
-        </div>
-        `;
+          </div>`;
 
-        // Disable buttons
-        ["email", "sms"].forEach((id) => {
+        // ── FIX: disable all 3 buttons including softtoken ──
+        ["email", "sms", "softtoken"].forEach((id) => {
           const btn = document.getElementById(id);
           if (btn) {
             btn.classList.add("opacity-50", "cursor-not-allowed");
@@ -630,7 +400,6 @@
       function readAndDeleteCookie() {
         const cookieName = "ext";
         const formId = "reset";
-
         function getCookie(name) {
           const cookies = document.cookie.split("; ");
           for (let cookie of cookies) {
@@ -639,11 +408,9 @@
           }
           return null;
         }
-
         function deleteCookie(name) {
           document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
         }
-
         const extCookie = getCookie(cookieName);
         if (extCookie) {
           deleteCookie(cookieName);
@@ -656,10 +423,7 @@
       }
 
       function logout() {
-        fetch("/pkmslogout", {
-          method: "GET",
-          credentials: "include",
-        });
+        fetch("/pkmslogout", { method: "GET", credentials: "include" });
       }
     </script>
 
@@ -668,59 +432,14 @@
         const lang = getCookie("ULang") || "en";
         const errorBox = document.getElementById("errorB");
         const errorText = document.getElementById("backendError");
-
         if (!errorBox || !errorText) return;
-
-        let bold = "";
-        let msg = "";
-
-        if (lang === "si") {
-          bold = "@BMESS_SI@";
-          msg = "@MESS_SI@";
-        } else if (lang === "ta") {
-          bold = "@BMESS_TA@";
-          msg = "@MESS_TA@";
-        } else {
-          bold = "@BMESS@";
-          msg = "@MESS@";
-        }
-
-        if (!msg || msg.trim() === "") {
-          errorBox.style.display = "none";
-          return;
-        }
-
+        let bold = "", msg = "";
+        if (lang === "si") { bold = "@BMESS_SI@"; msg = "@MESS_SI@"; }
+        else if (lang === "ta") { bold = "@BMESS_TA@"; msg = "@MESS_TA@"; }
+        else { bold = "@BMESS@"; msg = "@MESS@"; }
+        if (!msg || msg.trim() === "") { errorBox.style.display = "none"; return; }
         errorText.innerHTML = (bold ? "<b>" + bold + "</b> " : "") + msg;
         errorBox.style.display = "block";
-      }
-    </script>
-
-    <script>
-      function translateBackendErrorFromFiles() {
-        const errorElement = document.getElementById("backendError");
-        if (!errorElement) return;
-
-        const backendText = errorElement.textContent.trim();
-        if (!backendText) return;
-
-        const currentLang = getCookie("ULang") || "en";
-
-        const englishErrors = window.languages?.en?.errors;
-        const selectedErrors = window.languages?.[currentLang]?.errors;
-
-        if (!englishErrors || !selectedErrors) return;
-
-        // Find key by comparing values
-        const matchingKey = Object.keys(englishErrors).find((key) => {
-          const enText = englishErrors[key];
-          return (
-            enText && enText.trim().toLowerCase() === backendText.toLowerCase()
-          );
-        });
-
-        if (matchingKey && selectedErrors[matchingKey]) {
-          errorElement.textContent = selectedErrors[matchingKey];
-        }
       }
     </script>
 
